@@ -1,3 +1,4 @@
+import Book from "../../level/Book";
 import Level from "../../level/Level";
 import locales from "../../locales";
 import { theme } from "../style";
@@ -30,6 +31,11 @@ export default class HelpCommand extends Command {
 				theme.COMMENT
 			);
 			await this._terminal.writehlln(help.trim());
+		} else if (Book.current.canUseEmulator) {
+			await this._terminal.writehlln(
+				NEWLINE + locales.get("debug_tips"),
+				theme.COMMENT
+			);
 		}
 
 		if (!this._isAll) {

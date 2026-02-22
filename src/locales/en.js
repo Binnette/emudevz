@@ -77,6 +77,8 @@ export default {
 	creating_file: "Creating file",
 	crt_filter: "CRT filter",
 	current_level: " (current level)",
+	debug_tips:
+		"🐞  Debugging tips:\n- Run `test -v [testNumber]` on the <failing test>.\n- Use the `repl` command to try <JS expressions>.\n- Add a `debugger;` statement to your code and use the <dev tools>.\n- Call `console.log(...)` and use the <dev tools> (but remove it after!).\n- Call `EmuDevz.log(...)` to log strings into the <Log> tab of the 🐞  <Debugger>.\n- Inspect failing video tests <frame by frame>.\n- Compare failing audio tests <channel by channel>.",
 	decimal: "Decimal",
 	default_bus: " [default bus]",
 	delete: "Delete",
