@@ -1287,6 +1287,36 @@ it("updates the frame sequencer on every `step(...)` call", () => {
   use: ({ id }, book) => id >= book.getId("5c.7"),
 });
 
+it("calls `frameSequencer.step()` <before> calling `onSample(...)`", () => {
+  const APU = mainModule.default.APU;
+  const apu = new APU({});
+
+  const onSample = sinon.spy();
+  apu.frameSequencer.step = sinon.spy();
+
+  for (let i = 0; i < 19; i++) {
+    apu.step(onSample);
+    expect(onSample).to.not.have.been.called;
+  }
+  apu.step(onSample);
+  expect(onSample).to.have.been.calledOnce;
+  expect(apu.frameSequencer.step, "frameSequencer.step").to.have.been.called;
+
+  const frameStepCall = apu.frameSequencer.step.getCall(19); // (20th call)
+  const onSampleCall = onSample.getCall(0);
+
+  if (!frameStepCall.calledBefore(onSampleCall)) {
+    throw new Error(
+      "`frameSequencer.step()` was not called before `onSample(...)`."
+    );
+  }
+})({
+  locales: {
+    es: "llama a `frameSequencer.step()` <antes> de llamar a `onSample(...)`",
+  },
+  use: ({ id }, book) => id >= book.getId("5c.7"),
+});
+
 // 5c.8 Pulse Channels (3/5): Length counter
 
 it("`PulseChannel`: has a `lengthCounter` property", () => {
