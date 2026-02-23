@@ -65,6 +65,8 @@ help:
   - |-
     one way of implementing this is doing something like:
       ```javascript
+      const FIXED_PALETTE = [0xff000000, 0xff555555, 0xffaaaaaa, 0xffffffff];
+
       const y = this.ppu.scanline;
       for (let x = 0; x < 256; x += 8) {
         const nameTableId = 0; // TODO: Get name table id
@@ -79,8 +81,9 @@ help:
 
         const tile = new Tile(this.ppu, patternTableId, tileId, tileInsideY);
         for (let xx = 0; xx < 8; xx++) {
-          const colorIndex = tile.getColorIndex(xx);
-          // TODO: Plot each tile pixel
+          const colorIndex = tile.getColorIndex(xx); // 0 to 3
+          const color = 0; // TODO: Grab a color from FIXED_PALETTE
+          // TODO: Plot the color at pixel (x + xx, y)
         }
       }```
   responses:
