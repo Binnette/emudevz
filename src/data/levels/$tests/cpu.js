@@ -794,3 +794,30 @@ it("can run 4 simple operations, updating all counters, and calling a `logger` f
   },
   use: ({ id }, book) => id >= book.getId("5a.15"),
 });
+
+it("doesn't crash if `logger` is `null` or `undefined`", () => {
+  const cpu = newCPU([0xea, 0xea]);
+
+  // logger = null
+  cpu.pc.setValue(0x8000);
+  cpu.logger = null;
+  try {
+    cpu.step();
+  } catch (e) {
+    throw new Error("step() crashed when logger === null");
+  }
+
+  // logger = undefined
+  cpu.pc.setValue(0x8000);
+  cpu.logger = undefined;
+  try {
+    cpu.step();
+  } catch (e) {
+    throw new Error("step() crashed when logger === undefined");
+  }
+})({
+  locales: {
+    es: "no crashea si `logger` es `null` o `undefined`",
+  },
+  use: ({ id }, book) => id >= book.getId("5a.15"),
+});
