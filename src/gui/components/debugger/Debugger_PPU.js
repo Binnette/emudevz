@@ -414,6 +414,7 @@ export default class Debugger_PPU {
 				ppuAddress,
 				attributeAddress,
 			};
+			this._processPendingHoverReq(ppu);
 
 			const rectX = atlasTileX * TILE_SIZE_PIXELS;
 			const rectY = atlasTileY * TILE_SIZE_PIXELS;
