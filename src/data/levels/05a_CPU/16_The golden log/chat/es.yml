@@ -70,6 +70,10 @@ fix:
   - ...golden
 
 unexpected:
+  run: |
+    set((m) => {
+      m.$canRun = false;
+    });
   messages:
   - 💥  ¡¿qué?! 💥
   - quizá tengas un bug sutil que mis unit tests no detectaron
@@ -80,6 +84,10 @@ unexpected:
   - y recuerda el formato del log, 📄  ~/roms/_test/golden_log_format.md~
   - deberías poder encontrar la causa usando este método
   - si no, pide ayuda en línea 🌎
+  run-after-messages: |
+    set((m) => {
+      m.$canRun = true;
+    });
   events:
   - ...golden
 
