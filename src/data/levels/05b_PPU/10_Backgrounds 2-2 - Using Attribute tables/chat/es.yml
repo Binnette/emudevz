@@ -31,7 +31,7 @@ main:
 
       const tileInsideY = y % 8;
 
-      const tile = new Tile(this, patternTableId, tileId, tileInsideY);
+      const tile = new Tile(this.ppu, patternTableId, tileId, tileInsideY);
       for (let xx = 0; xx < 8; xx++) {
         const colorIndex = tile.getColorIndex(xx);
         const color =
