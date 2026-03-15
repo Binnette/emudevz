@@ -3528,6 +3528,26 @@ it("`NoiseChannel`: `step()` increments `dividerCount` and updates `shift` every
   use: ({ id }, book) => id >= book.getId("5c.15"),
 });
 
+it("`NoiseChannel`: `step()` resets `dividerCount` when it's >= the noise period", () => {
+  const APU = mainModule.default.APU;
+  const apu = new APU({});
+
+  const channel = apu.channels.noise;
+  channel.dividerCount = 99;
+
+  // periodId = 0 => period = noisePeriods[0] = 2
+  apu.registers.noise.form.onWrite(0b00000000);
+
+  channel.step();
+  expect(channel.dividerCount).to.equalN(0, "dividerCount");
+})({
+  locales: {
+    es:
+      "`NoiseChannel`: `step()` reinicia `dividerCount` cuando es >= al período de ruido",
+  },
+  use: ({ id }, book) => id >= book.getId("5c.15"),
+});
+
 it("`NoiseChannel`: `step()` uses `mode` flag to compute feedback bit", () => {
   const APU = mainModule.default.APU;
   const apu = new APU({});
