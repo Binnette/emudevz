@@ -46,6 +46,8 @@ export default EditorView.domEventHandlers({
 		)
 			return false;
 
+		if (view.state.selection.ranges.length > 1) return false;
+
 		event.preventDefault();
 		const raw = event.clipboardData.getData("text/plain");
 		const normalized = stripCommonIndent(raw, view.state.tabSize ?? 4);
