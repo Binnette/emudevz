@@ -334,7 +334,7 @@ class DMCSampleLength extends InMemoryRegister.APU {
 
 class APUStatus extends InMemoryRegister.APU {
 	onRead() {
-		/* TODO: IMPLEMENT */
+		/* TODO: IMPLEMENT (in 5c.19) */
 		return 0;
 	}
 }

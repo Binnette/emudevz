@@ -541,6 +541,30 @@ it("`APUControl`: writes the <channel enable> fields (bits ~0-4~)", () => {
   use: ({ id }, book) => id >= book.getId("5c.4"),
 });
 
+it("`APUStatus`: reads return 0 (for now)", () => {
+  const APU = mainModule.default.APU;
+  const apu = new APU({});
+
+  const control = apu.registers.apuControl;
+
+  control.onWrite(0b10100);
+  expect(apu.registers.apuStatus.onRead()).to.equalN(0, "onRead()");
+
+  control.onWrite(0b01001);
+  expect(apu.registers.apuStatus.onRead()).to.equalN(0, "onRead()");
+
+  control.onWrite(0b11010);
+  expect(apu.registers.apuStatus.onRead()).to.equalN(0, "onRead()");
+
+  control.onWrite(0b11111);
+  expect(apu.registers.apuStatus.onRead()).to.equalN(0, "onRead()");
+})({
+  locales: {
+    es: "`APUStatus`: las lecturas retornan 0 (por ahora)",
+  },
+  use: ({ id }, book) => id >= book.getId("5c.4") && id < book.getId("5c.19"),
+});
+
 // 5c.5 Pulse Channels (1/5): Channel setup
 
 it("has `PulseChannel` instances", () => {
