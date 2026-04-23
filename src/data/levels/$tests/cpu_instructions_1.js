@@ -209,6 +209,24 @@ it("`ASL`: updates the Zero and Negative flags", () => {
   use: ({ id }, book) => id >= book.getId("5a.7"),
 });
 
+it("`ASL`: wraps around to 8 bits", () => {
+  const cpu = newCPU();
+  const instructions = mainModule.default.instructions;
+
+  cpu.memory.write(0x1234, 0b10000000);
+  instructions.ASL.run(cpu, 0x1234);
+
+  expect(cpu.memory.read(0x1234)).to.equalBin(0b00000000, "read(...)");
+  expect(cpu.flags.c).to.equalN(true, "c");
+  expect(cpu.flags.z).to.equalN(true, "z");
+  expect(cpu.flags.n).to.equalN(false, "n");
+})({
+  locales: {
+    es: "`ASL`: da la vuelta a 8 bits",
+  },
+  use: ({ id }, book) => id >= book.getId("5a.7"),
+});
+
 it('`ASLa`: argument == "no"', () => {
   const instructions = mainModule.default.instructions;
   expect(instructions).to.include.key("ASLa");
@@ -267,6 +285,24 @@ it("`ASLa`: updates the Zero and Negative flags", () => {
 })({
   locales: {
     es: "`ASLa`: actualiza las banderas Zero y Negative",
+  },
+  use: ({ id }, book) => id >= book.getId("5a.7"),
+});
+
+it("`ASLa`: wraps around to 8 bits", () => {
+  const cpu = newCPU();
+  const instructions = mainModule.default.instructions;
+
+  cpu.a.setValue(0b10000000);
+  instructions.ASLa.run(cpu);
+
+  expect(cpu.a.getValue()).to.equalBin(0b00000000, "getValue()");
+  expect(cpu.flags.c).to.equalN(true, "c");
+  expect(cpu.flags.z).to.equalN(true, "z");
+  expect(cpu.flags.n).to.equalN(false, "n");
+})({
+  locales: {
+    es: "`ASLa`: da la vuelta a 8 bits",
   },
   use: ({ id }, book) => id >= book.getId("5a.7"),
 });
@@ -733,6 +769,24 @@ it("`ROL`: updates the Zero and Negative flags", () => {
   use: ({ id }, book) => id >= book.getId("5a.7"),
 });
 
+it("`ROL`: wraps around to 8 bits", () => {
+  const cpu = newCPU();
+  const instructions = mainModule.default.instructions;
+
+  cpu.memory.write(0x1234, 0b10000000);
+  instructions.ROL.run(cpu, 0x1234);
+
+  expect(cpu.memory.read(0x1234)).to.equalBin(0b00000000, "read(...)");
+  expect(cpu.flags.c).to.equalN(true, "c");
+  expect(cpu.flags.z).to.equalN(true, "z");
+  expect(cpu.flags.n).to.equalN(false, "n");
+})({
+  locales: {
+    es: "`ROL`: da la vuelta a 8 bits",
+  },
+  use: ({ id }, book) => id >= book.getId("5a.7"),
+});
+
 it('`ROLa`: argument == "no"', () => {
   const instructions = mainModule.default.instructions;
   expect(instructions).to.include.key("ROLa");
@@ -807,6 +861,24 @@ it("`ROLa`: updates the Zero and Negative flags", () => {
 })({
   locales: {
     es: "`ROLa`: actualiza las banderas Zero y Negative",
+  },
+  use: ({ id }, book) => id >= book.getId("5a.7"),
+});
+
+it("`ROLa`: wraps around to 8 bits", () => {
+  const cpu = newCPU();
+  const instructions = mainModule.default.instructions;
+
+  cpu.a.setValue(0b10000000);
+  instructions.ROLa.run(cpu);
+
+  expect(cpu.a.getValue()).to.equalBin(0b00000000, "getValue()");
+  expect(cpu.flags.c).to.equalN(true, "c");
+  expect(cpu.flags.z).to.equalN(true, "z");
+  expect(cpu.flags.n).to.equalN(false, "n");
+})({
+  locales: {
+    es: "`ROLa`: da la vuelta a 8 bits",
   },
   use: ({ id }, book) => id >= book.getId("5a.7"),
 });
