@@ -39,8 +39,21 @@
 ### Install and run
 
 ```bash
-# install nvm & node
+# [0: install nvm & node]
+# - install nvm
+# - install the node version listed in `.nvmrc`
+
+# [1: install dependencies]
 npm install
+
+# [2: package levels]
+npm run package
+
+# [3: add music files (optional)]
+# - grab the `music` directory from the `gh-pages` branch
+# - put it in `public/music`
+
+# [4: start the dev server]
 npm start
 ```
 
