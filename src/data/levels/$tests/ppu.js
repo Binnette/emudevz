@@ -2619,6 +2619,221 @@ it("`SpriteRenderer`: does <NOT> set the sprite-zero hit flag when background is
   use: ({ id }, book) => id >= book.getId("5b.22"),
 });
 
+// 5b.23 Scrolling (2/2): The Right Way
+
+it("has a `loopy` property with the correct LoopyRegister class", async () => {
+  mainModule = await evaluate();
+  const LoopyRegisterClass = (
+    await evaluateModule($.modules["/lib/ppu/LoopyRegister.js"])
+  ).default;
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  expect(ppu).to.include.key("loopy");
+  expect(ppu.loopy).to.be.an("object");
+  expect(ppu.loopy.constructor).to.equalN(LoopyRegisterClass, "class");
+})({
+  locales: {
+    es: "tiene una propiedad `loopy` con la clase LoopyRegister correcta",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`_onPreLine()`: copies the vertical scroll from `loopy.tAddress` to `loopy.vAddress`", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  ppu.registers.ppuMask.onWrite(0b00001000);
+  ppu.registers.ppuCtrl.onWrite(2);
+  ppu.registers.ppuScroll.onWrite(0);
+  ppu.registers.ppuScroll.onWrite(165);
+
+  ppu.cycle = 280;
+  ppu._onPreLine();
+
+  expect(ppu.loopy.scrolledY()).to.equalN(165, "loopy.scrolledY()");
+  expect(ppu.loopy.nameTableId(0)).to.equalN(2, "loopy.nameTableId(0)");
+})({
+  locales: {
+    es:
+      "`_onPreLine()`: copia el scroll vertical desde `loopy.tAddress` hacia `loopy.vAddress`",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`_onVisibleLine()`: copies the horizontal scroll from `loopy.tAddress` to `loopy.vAddress`", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  ppu.registers.ppuMask.onWrite(0b00001000);
+  ppu.registers.ppuCtrl.onWrite(1);
+  ppu.registers.ppuScroll.onWrite(56);
+
+  ppu.cycle = 257;
+  ppu._onVisibleLine();
+
+  expect(ppu.loopy.scrolledX(0)).to.equalN(56, "loopy.scrolledX(0)");
+  expect(ppu.loopy.nameTableId(56)).to.equalN(1, "loopy.nameTableId(56)");
+})({
+  locales: {
+    es:
+      "`_onVisibleLine()`: copia el scroll horizontal desde `loopy.tAddress` hacia `loopy.vAddress`",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`plotBG(...)`: advances the horizontal loopy scroll every 8 pixels if the background is shown", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  // bg hidden
+  for (let x = 0; x < 8; x++) {
+    ppu.plotBG(x, 0, 0xff000000, 1);
+  }
+  expect(ppu.loopy.scrolledX(0)).to.equalN(
+    0,
+    "loopy.scrolledX(0) (background hidden)"
+  );
+
+  // bg shown
+  ppu.registers.ppuMask.onWrite(0b00001000);
+  for (let x = 0; x < 8; x++) {
+    ppu.plotBG(x, 0, 0xff000000, 1);
+  }
+  expect(ppu.loopy.scrolledX(0)).to.equalN(
+    8,
+    "loopy.scrolledX(0) (background shown)"
+  );
+})({
+  locales: {
+    es:
+      "`plotBG(...)`: avanza el scroll horizontal de loopy cada 8 píxeles si el fondo está visible",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`PPUCtrl`: doesn't expose `nameTableId` anymore, and writes it into `loopy.tAddress`", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  const ppuCtrl = ppu.registers.ppuCtrl;
+  expect(ppuCtrl).to.not.include.key("nameTableId");
+
+  ppuCtrl.onWrite(0b11111100);
+  expect(ppu.loopy.tAddress.nameTableId).to.equalN(0, "nameTableId");
+
+  ppuCtrl.onWrite(0b11111101);
+  expect(ppu.loopy.tAddress.nameTableId).to.equalN(1, "nameTableId");
+
+  ppuCtrl.onWrite(0b11111110);
+  expect(ppu.loopy.tAddress.nameTableId).to.equalN(2, "nameTableId");
+
+  ppuCtrl.onWrite(0b11111111);
+  expect(ppu.loopy.tAddress.nameTableId).to.equalN(3, "nameTableId");
+})({
+  locales: {
+    es:
+      "`PPUCtrl`: ya no expone `nameTableId`, y lo escribe en `loopy.tAddress`",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`PPUStatus`: resets the shared write toggle for `PPUScroll`", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  const ppuScroll = ppu.registers.ppuScroll;
+  const ppuStatus = ppu.registers.ppuStatus;
+
+  ppuScroll.onWrite(250);
+  ppuStatus.onRead();
+  ppuScroll.onWrite(5);
+
+  expect(ppu.loopy.tAddress.coarseX).to.equalN(0, "tAddress.coarseX");
+  expect(ppu.loopy.fineX).to.equalN(5, "fineX");
+  expect(ppu.loopy.tAddress.coarseY).to.equalN(0, "tAddress.coarseY");
+  expect(ppu.loopy.tAddress.fineY).to.equalN(0, "tAddress.fineY");
+})({
+  locales: {
+    es:
+      "`PPUStatus`: reinicia el selector compartido de escrituras para `PPUScroll`",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`PPUStatus`: resets the shared write toggle for `PPUAddr`", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  const ppuAddr = ppu.registers.ppuAddr;
+  const ppuStatus = ppu.registers.ppuStatus;
+
+  ppuAddr.onWrite(0x21);
+  expect(ppuAddr.address).to.equalHex(0x0000, "address");
+
+  ppuStatus.onRead();
+
+  ppuAddr.onWrite(0x34);
+  expect(ppuAddr.address).to.equalHex(0x0000, "address");
+
+  ppuAddr.onWrite(0x56);
+  expect(ppuAddr.address).to.equalHex(0x3456, "address");
+})({
+  locales: {
+    es:
+      "`PPUStatus`: reinicia el selector compartido de escrituras para `PPUAddr`",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`PPUScroll`: writes the horizontal scroll first, then the vertical scroll", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  const ppuScroll = ppu.registers.ppuScroll;
+
+  ppuScroll.onWrite(0b11111010);
+  expect(ppu.loopy.tAddress.coarseX).to.equalN(31, "tAddress.coarseX");
+  expect(ppu.loopy.fineX).to.equalN(2, "fineX");
+  expect(ppu.loopy.tAddress.coarseY).to.equalN(0, "tAddress.coarseY");
+  expect(ppu.loopy.tAddress.fineY).to.equalN(0, "tAddress.fineY");
+
+  ppuScroll.onWrite(0b10100101);
+  expect(ppu.loopy.tAddress.coarseX).to.equalN(31, "tAddress.coarseX");
+  expect(ppu.loopy.fineX).to.equalN(2, "fineX");
+  expect(ppu.loopy.tAddress.coarseY).to.equalN(20, "tAddress.coarseY");
+  expect(ppu.loopy.tAddress.fineY).to.equalN(5, "tAddress.fineY");
+})({
+  locales: {
+    es:
+      "`PPUScroll`: escribe primero el scroll horizontal, y luego el vertical",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`PPUAddr`: doesn't expose `latch` anymore, and `address` proxies `loopy.vAddress`", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  const ppuAddr = ppu.registers.ppuAddr;
+  expect(ppuAddr).to.not.include.key("latch");
+
+  ppuAddr.address = 0x2345;
+  expect(ppu.loopy.vAddress.getValue()).to.equalHex(
+    0x2345,
+    "vAddress.getValue()"
+  );
+
+  ppu.loopy.vAddress.setValue(0x7fff);
+  expect(ppuAddr.address).to.equalHex(0x3fff, "address");
+})({
+  locales: {
+    es:
+      "`PPUAddr`: ya no expone `latch`, y `address` es un proxy de `loopy.vAddress`",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
 // 5b.24 Color emphasis
 
 it("`PPUMask`: writes `grayscale` (bit 0)", () => {

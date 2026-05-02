@@ -3849,6 +3849,7 @@ it("`DMCChannel`: has a `dpcm` property with the correct DPCM class", async () =
 
   const apu = new APU({});
 
+  expect(apu.channels.dmc).to.include.key("dpcm");
   expect(apu.channels.dmc.dpcm).to.be.an("object");
   expect(apu.channels.dmc.dpcm.constructor).to.equalN(DPCMClass, "class");
 })({
