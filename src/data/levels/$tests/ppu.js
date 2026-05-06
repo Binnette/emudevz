@@ -2682,6 +2682,41 @@ it("`_onVisibleLine()`: copies the horizontal scroll from `loopy.tAddress` to `l
   use: ({ id }, book) => id >= book.getId("5b.23"),
 });
 
+it("`_onPreLine()`: doesn't call `loopy.onPreLine(...)` if rendering is off", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  sinon.spy(ppu.loopy, "onPreLine");
+  ppu.registers.ppuMask.onWrite(0);
+  ppu._onPreLine();
+
+  expect(ppu.loopy.onPreLine).to.not.have.been.called;
+})({
+  locales: {
+    es:
+      "`_onPreLine()`: no llama a `loopy.onPreLine(...)` si el renderizado está apagado",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
+it("`_onVisibleLine()`: doesn't call `loopy.onVisibleLine(...)` if rendering is off", () => {
+  const PPU = mainModule.default.PPU;
+  const ppu = new PPU({});
+
+  sinon.spy(ppu.loopy, "onVisibleLine");
+  ppu.registers.ppuMask.onWrite(0);
+  ppu.cycle = 1;
+  ppu._onVisibleLine();
+
+  expect(ppu.loopy.onVisibleLine).to.not.have.been.called;
+})({
+  locales: {
+    es:
+      "`_onVisibleLine()`: no llama a `loopy.onVisibleLine(...)` si el renderizado está apagado",
+  },
+  use: ({ id }, book) => id >= book.getId("5b.23"),
+});
+
 it("`plotBG(...)`: advances the horizontal loopy scroll every 8 pixels if the background is shown", () => {
   const PPU = mainModule.default.PPU;
   const ppu = new PPU({});
