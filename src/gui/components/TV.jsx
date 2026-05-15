@@ -253,6 +253,8 @@ export default class TV extends PureComponent {
 	}
 
 	_onFileDrop = (e) => {
+		if (this.runner?.state.integrationId != null) return;
+
 		if (this.state.type !== "rom") return;
 		e.preventDefault();
 
