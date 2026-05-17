@@ -122,8 +122,8 @@ const INITIAL_STATE = () => ({
 	advancedSettings: DEFAULT_ADVANCED_SETTINGS,
 	freeModeSetings: {
 		romExtension: ".gb",
-		screenWidth: 240,
-		screenHeight: 160,
+		screenWidth: 160,
+		screenHeight: 144,
 	},
 	emulatorSettings: {
 		useCartridge: true,
