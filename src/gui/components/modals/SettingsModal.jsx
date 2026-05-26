@@ -10,6 +10,7 @@ import {
 	DEFAULT_KEY_BINDINGS,
 } from "../../../models/savedata";
 import { filepicker, savefile, toast } from "../../../utils";
+import { date } from "../../../utils";
 import Button from "../widgets/Button";
 import GamepadMapper from "../widgets/GamepadMapper";
 import IconButton from "../widgets/IconButton";
@@ -363,7 +364,7 @@ class SettingsModal extends PureComponent {
 		this.setState({ isLoadingSaveBackup: true });
 
 		try {
-			const filename = new Date().toJSON().split("T")[0] + SAVEFILE_EXTENSION;
+			const filename = date.today() + SAVEFILE_EXTENSION;
 			await savefile.export(filename);
 		} finally {
 			this.setState({ isLoadingSaveBackup: false });

@@ -4,6 +4,7 @@ import async from "./async";
 import blob from "./blob";
 import bus from "./bus";
 import byte from "./byte";
+import date from "./date";
 import dlc from "./dlc";
 import filepicker from "./filepicker";
 import hex from "./hex";
@@ -18,6 +19,7 @@ export {
 	blob,
 	bus,
 	byte,
+	date,
 	dlc,
 	filepicker,
 	hex,

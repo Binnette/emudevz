@@ -21,7 +21,7 @@ import classNames from "classnames";
 import _ from "lodash";
 import Level from "../../../level/Level";
 import locales from "../../../locales";
-import { bus, dlc, savefile } from "../../../utils";
+import { bus, date, dlc, savefile } from "../../../utils";
 import { music, sfx } from "../../sound";
 import CalculatorModal from "../modals/CalculatorModal";
 import FreeModeSettingsModal from "../modals/FreeModeSettingsModal";
@@ -271,7 +271,7 @@ class NavBar extends PureComponent {
 	_backUp = async () => {
 		sfx.play("save");
 
-		const filename = new Date().toJSON().split("T")[0] + SAVEFILE_EXTENSION;
+		const filename = date.today() + SAVEFILE_EXTENSION;
 
 		try {
 			Level.startEffect("running", { sfx: false });
