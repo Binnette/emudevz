@@ -11,6 +11,7 @@ export default class TouchCommand extends FilesystemCommand {
 	async _execute() {
 		for (let arg of this._fileArgs) {
 			const path = this._resolve(arg, true);
+			if (filesystem.exists(path)) continue;
 
 			await this._terminal.writeln(
 				`${locales.get("creating_file")} ${theme.ACCENT(arg)}...`
