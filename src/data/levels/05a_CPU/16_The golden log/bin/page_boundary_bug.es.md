@@ -1,4 +1,4 @@
-# CPU: Page boundary bug
+# Page boundary bug
 
 El modo de direccionamiento **Indirect** tiene una falla:
 

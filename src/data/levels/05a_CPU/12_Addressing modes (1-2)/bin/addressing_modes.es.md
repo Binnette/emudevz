@@ -1,4 +1,4 @@
-# CPU: Modos de direccionamiento
+# Modos de direccionamiento
 
 #### Simples
 

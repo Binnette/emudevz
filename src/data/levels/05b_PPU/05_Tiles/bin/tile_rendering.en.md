@@ -1,4 +1,4 @@
-# PPU: Tile rendering
+# Tile rendering
 
 - A 🕊️📖 pattern table is a list of `256` consecutive 🕊️ tiles.
 - Each 🕊️ tile occupies `16` bytes...

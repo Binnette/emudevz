@@ -1,4 +1,4 @@
-# PPU: Definitions
+# Definitions
 
 <hr />
 

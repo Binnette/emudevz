@@ -4,6 +4,7 @@
 		"es": "🏁 Banderas"
 	},
 	"ui": {
+		"run": "copy.js",
 		"layout": "dual",
 		"components": {
 			"Left": [

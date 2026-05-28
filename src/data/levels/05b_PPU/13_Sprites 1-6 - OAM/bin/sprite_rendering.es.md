@@ -1,4 +1,4 @@
-# PPU: Renderizado de sprites
+# Renderizado de sprites
 
 - Una 🛸📖 tabla OAM es un array de `64` 🛸 entradas OAM.
 - Cada 🛸 entrada OAM representa un sprite y ocupa `4` bytes.

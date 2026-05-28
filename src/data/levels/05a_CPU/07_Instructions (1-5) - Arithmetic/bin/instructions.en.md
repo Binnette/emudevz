@@ -1,4 +1,4 @@
-# CPU: Instructions
+# Instructions
 
 #### Reference
 

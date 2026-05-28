@@ -1,4 +1,4 @@
-# CPU: Addressing modes
+# Addressing modes
 
 #### Simple
 

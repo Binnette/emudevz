@@ -1,4 +1,4 @@
-# CPU: Page boundary bug
+# Page boundary bug
 
 The **Indirect** addressing mode has a bug.
 

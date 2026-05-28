@@ -1,4 +1,4 @@
-# PPU: Background rendering
+# Background rendering
 
 - A 🏞️📖 name table is a matrix of `32x30` 🕊️ _tile indexes_.
 - Since the screen resolution is `256x240`, and each 🕊️ tile is `8x8` pixels, these `32x30` tiles cover the whole screen area ✨.

@@ -1,4 +1,4 @@
-# PPU: Renderizado de Tiles
+# Renderizado de Tiles
 
 - Una 🕊️📖 pattern table es una lista de `256` 🕊️ tiles consecutivos.
 - Cada 🕊️ tile ocupa `16` bytes...

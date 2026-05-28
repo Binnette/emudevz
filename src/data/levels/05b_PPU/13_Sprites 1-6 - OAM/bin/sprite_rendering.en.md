@@ -1,4 +1,4 @@
-# PPU: Sprite rendering
+# Sprite rendering
 
 - An 🛸📖 OAM table is an array of `64` 🛸 OAM entries.
 - Each 🛸 OAM entry represents a sprite and occupies `4` bytes.

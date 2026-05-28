@@ -1,4 +1,4 @@
-# PPU: Renderizado de fondos
+# Renderizado de fondos
 
 - Una 🏞️📖 name table es una matriz de `32x30` 🕊️ _índices de tile_.
 - Dado que la resolución de pantalla es `256x240`, y cada 🕊️ tile es de `8x8` píxeles, estos `32x30` tiles cubren toda el área de la pantalla ✨.
