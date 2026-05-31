@@ -71,7 +71,7 @@ export default {
 	command_test_description: "Probar tu solución.",
 	command_touch_description:
 		"Crear archivos (uso: `touch arch1.txt arch2.js`).",
-	command_upload_description: "Subir un archivo a la carpeta actual.",
+	command_upload_description: "Subir archivos a la carpeta actual.",
 	complete: "completos",
 	console: "Consola",
 	controller: "Mando",

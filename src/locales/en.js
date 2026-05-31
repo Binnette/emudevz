@@ -68,7 +68,7 @@ export default {
 	command_test_description: "Test your solution.",
 	command_touch_description:
 		"Create files (usage: `touch file1.txt file2.js`).",
-	command_upload_description: "Upload a file to the current folder.",
+	command_upload_description: "Upload files to the current folder.",
 	complete: "complete",
 	console: "Console",
 	controller: "Controller",

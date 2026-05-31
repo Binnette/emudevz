@@ -13,26 +13,28 @@ export default class UploadCommand extends FilesystemCommand {
 
 	async _execute() {
 		await new Promise((resolve, reject) => {
-			filepicker.open(
+			filepicker.openMultiple(
 				null,
-				async (fileContent, fileName) => {
+				async (files) => {
 					try {
-						fileName = fileName.replace(/[^a-z0-9._-]/gi, "_");
-						if (!fileName) return;
+						for (let file of files) {
+							const fileName = file.name.replace(/[^a-z0-9._-]/gi, "_");
+							if (!fileName) continue;
 
-						const [__, customArgs] = extensions.getOptions(fileName);
+							const [__, customArgs] = extensions.getOptions(fileName);
 
-						const path = `${this._shell.workingDirectory}/${fileName}`;
-						const processedPath = this._resolve(path, true);
-						const parsedPath = $path.parse(processedPath);
-						await this._terminal.writeln(
-							`${locales.get("creating_file")} ${theme.ACCENT(
-								parsedPath.base
-							)}...`
-						);
-						filesystem.write(processedPath, fileContent, {
-							binary: customArgs.binary,
-						});
+							const path = `${this._shell.workingDirectory}/${fileName}`;
+							const processedPath = this._resolve(path, true);
+							const parsedPath = $path.parse(processedPath);
+							await this._terminal.writeln(
+								`${locales.get("creating_file")} ${theme.ACCENT(
+									parsedPath.base
+								)}...`
+							);
+							filesystem.write(processedPath, file.content, {
+								binary: customArgs.binary,
+							});
+						}
 						resolve();
 					} catch (e) {
 						reject(e);
