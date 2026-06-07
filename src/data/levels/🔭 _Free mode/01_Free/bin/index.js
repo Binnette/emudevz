@@ -86,6 +86,14 @@ class Emulator {
     /* TODO: IMPLEMENT */
   }
 
+  /**
+   * Returns a multiline string with metadata about the current ROM.
+   */
+  getMetadata(name) {
+    /* TODO: IMPLEMENT */
+    return `${name}\n🗜️ Mapper: 123\n🔋 RAM+BATT: yes?`;
+  }
+
   // <test>
   _generateVideo() {
     this._frameIndex++;

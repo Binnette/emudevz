@@ -263,7 +263,6 @@ export default class EmulatorRunner extends PureComponent {
 
 				<pre
 					className={styles.info}
-					style={{ display: isFreeMode ? "none" : undefined }}
 					ref={(ref) => {
 						this._info = ref;
 					}}
@@ -370,6 +369,17 @@ export default class EmulatorRunner extends PureComponent {
 	};
 
 	_setInfo = (__, neees) => {
+		if (typeof neees.getMetadata === "function") {
+			const metadata = neees.getMetadata(this.props.name);
+			const hasMetadata = typeof metadata === "string" && metadata !== "";
+			this._info.innerText = hasMetadata ? metadata : "";
+			this._info.style.display = hasMetadata ? "" : "none";
+			return;
+		} else if (Level.current.isFreeMode()) {
+			this._clearInfo();
+			return;
+		}
+
 		const name =
 			this.props.name != null
 				? `<strong style="display: flex; justify-content: center">${this.props.name}</strong>`
@@ -392,10 +402,12 @@ export default class EmulatorRunner extends PureComponent {
 			`👾 CHR: ${chr}` +
 			"\n" +
 			`🔋 PRG RAM: ${prgRam}`;
+		this._info.style.display = "";
 	};
 
 	_clearInfo = () => {
 		this._info.innerText = "";
+		this._info.style.display = "";
 	};
 
 	_goToError = () => {
