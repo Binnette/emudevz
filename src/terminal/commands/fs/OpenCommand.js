@@ -1,5 +1,6 @@
 import $path from "path-browserify-esm";
 import filesystem from "../../../filesystem";
+import CodeEditor from "../../../gui/components/CodeEditor";
 import TV from "../../../gui/components/TV";
 import extensions from "../../../gui/extensions";
 import Level from "../../../level/Level";
@@ -33,7 +34,12 @@ export default class OpenCommand extends FilesystemCommand {
 		} else {
 			if (level.canLaunch(Component, customArgs)) {
 				store.dispatch.savedata.openFile(filePath);
-				Level.current.focusConsole();
+
+				if (Component === CodeEditor || Component === TV) {
+					Level.current.focusMultiFileEditor();
+				} else {
+					Level.current.focusConsole();
+				}
 			} else return ERR_CANNOT_OPEN_FILE;
 		}
 		return true;
