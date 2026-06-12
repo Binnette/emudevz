@@ -24,7 +24,7 @@ export default class FilesystemCommand extends Command {
 			: absolutePath;
 		const parsedPath = $path.parse(processedPath);
 
-		if (Drive.INVALID_CHARACTERS.test(parsedPath.base))
+		if (Drive.INVALID_CHARACTERS().test(parsedPath.base))
 			throw new Error(`Invalid name: '${parsedPath.base}'`);
 
 		if (parsedPath.base.length > Drive.MAX_FILE_NAME_LENGTH)

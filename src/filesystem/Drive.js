@@ -27,8 +27,8 @@ const READONLY_PATHS = [
 const PROTECTED_PATHS = [];
 
 export default {
-	PATH_INVALID_CHARACTERS: /[^a-z0-9/._-]/gi,
-	INVALID_CHARACTERS: /[^a-z0-9._-]/gi,
+	PATH_INVALID_CHARACTERS: () => /[^a-z0-9/._-]/gi,
+	INVALID_CHARACTERS: () => /[^a-z0-9._-]/gi,
 	MAX_FILE_NAME_LENGTH: 65,
 
 	MAIN_FILE,

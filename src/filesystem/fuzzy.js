@@ -18,7 +18,7 @@ export default {
 	},
 
 	_sanitize(input) {
-		return input.replace(Drive.PATH_INVALID_CHARACTERS, "").toLowerCase();
+		return input.replace(Drive.PATH_INVALID_CHARACTERS(), "").toLowerCase();
 	},
 
 	_findMatches(file, input) {
