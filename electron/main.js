@@ -80,6 +80,20 @@ function createWindow() {
 		win.loadURL("app://-/index.html");
 	}
 
+	const isExternalHttpUrl = (url) => {
+		try {
+			const nextUrl = new URL(url);
+			if (!/^https?:$/.test(nextUrl.protocol)) return false;
+
+			const currentUrl = win.webContents.getURL();
+			if (!currentUrl) return true;
+
+			return nextUrl.origin !== new URL(currentUrl).origin;
+		} catch {
+			return false;
+		}
+	};
+
 	// Keyboard zoom shortcuts on Windows/Linux:
 	// - Ctrl++ or Ctrl+NumpadAdd: Zoom in
 	// - Ctrl-- or Ctrl+NumpadSubtract: Zoom out
@@ -170,11 +184,18 @@ function createWindow() {
 
 	// Open external links in the default browser
 	win.webContents.setWindowOpenHandler(({ url }) => {
-		if (/^https?:\/\//.test(url)) {
+		if (isExternalHttpUrl(url)) {
 			shell.openExternal(url);
 			return { action: "deny" };
 		}
 		return { action: "allow" };
+	});
+
+	win.webContents.on("will-navigate", (event, url) => {
+		if (!isExternalHttpUrl(url)) return;
+
+		event.preventDefault();
+		shell.openExternal(url);
 	});
 
 	return win;
