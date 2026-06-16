@@ -43,8 +43,9 @@ exercise:
     **_onVisibleLine()**:
       **[!]** leave empty for now
     **_onVBlankLine(onInterrupt)**:
-      **->** if ```javascript this.cycle``` is 1:
+      **->** if ```javascript this.cycle``` is 0:
         **->** sets ```javascript this.registers.ppuStatus.isInVBlankInterval = 1```
+      **->** if ```javascript this.cycle``` is 1:
         **->** if ```javascript this.registers.ppuCtrl.generateNMIOnVBlank```:
           **->** calls ```javascript onInterrupt(interrupts.NMI)```
           (you need to import it from 📄  ~/lib/interrupts.js~)

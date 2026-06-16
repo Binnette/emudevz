@@ -863,10 +863,9 @@ export default class PPU {
 	}
 
 	_onVBlankLine(onInterrupt) {
-		if (this.cycle === 1) {
-			this.registers.ppuStatus.isInVBlankInterval = 1;
-			if (this.registers.ppuCtrl.generateNMIOnVBlank)
-				onInterrupt(interrupts.NMI);
-		}
+		if (this.cycle === 0) this.registers.ppuStatus.isInVBlankInterval = 1;
+
+		if (this.cycle === 1 && this.registers.ppuCtrl.generateNMIOnVBlank)
+			onInterrupt(interrupts.NMI);
 	}
 }

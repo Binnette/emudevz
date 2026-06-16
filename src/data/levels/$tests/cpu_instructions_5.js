@@ -168,7 +168,6 @@ it("`BRK`: increments [PC] and triggers a <BRK> interrupt (bit 4 from flags shou
 
   expect(cpu.stack.pop()).to.equalBin(0b00110000, "pop()");
   expect(cpu.stack.pop16()).to.equalHex(0x1235, "pop16()");
-  expect(cpu.cycle).to.equalN(15, "cycle");
   expect(cpu.flags.i).to.equalN(true, "i");
   expect(cpu.pc.getValue()).to.equalHex(0x3125, "getValue()");
 })({

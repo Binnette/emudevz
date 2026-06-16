@@ -97,7 +97,9 @@ brk:
   messages:
   - |-
     📚  puedes implementar la instrucción `BRK` como:
-      - incrementar [PC]: ```javascript cpu.pc.increment()```
-      - disparar la interrupción ~BRK~: ```javascript cpu.interrupt(interrupts.BRK, true)```
+      - incrementar [PC]:
+        ```javascript cpu.pc.increment()```
+      - disparar la interrupción ~BRK~:
+        ```javascript cpu.cycle -= cpu.interrupt(interrupts.BRK, true)```
   responses:
   - ...exercise

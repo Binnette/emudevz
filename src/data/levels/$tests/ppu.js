@@ -847,7 +847,9 @@ it("sets `PPUStatus::isInVBlankInterval` and triggers an NMI on ~scanline=241~, 
     onInterrupt.resetHistory();
     ppu.scanline = 241;
     ppu.cycle = cycle;
-    ppu.registers.ppuStatus.isInVBlankInterval = 0;
+
+    // LEGACY: old versions asked to set the flag AND trigger the NMI on cycle=1, it's... fine
+    if (cycle !== 1) ppu.registers.ppuStatus.isInVBlankInterval = 0;
 
     ppu.step(noop, onInterrupt);
 
@@ -861,10 +863,12 @@ it("sets `PPUStatus::isInVBlankInterval` and triggers an NMI on ~scanline=241~, 
         vector: 0xfffa,
       });
     } else {
-      expect(ppu.registers.ppuStatus.isInVBlankInterval).to.equalN(
-        0,
-        "isInVBlankInterval"
-      );
+      if (cycle > 1 /* // LEGACY: see above */) {
+        expect(ppu.registers.ppuStatus.isInVBlankInterval).to.equalN(
+          0,
+          "isInVBlankInterval"
+        );
+      }
       expect(onInterrupt).to.not.have.been.called;
     }
   }
@@ -889,7 +893,9 @@ it("sets `PPUStatus::isInVBlankInterval` and doesn't trigger an NMI on ~scanline
     onInterrupt.resetHistory();
     ppu.scanline = 241;
     ppu.cycle = cycle;
-    ppu.registers.ppuStatus.isInVBlankInterval = 0;
+
+    // LEGACY: old versions asked to set the flag AND trigger the NMI on cycle=1, it's... fine
+    if (cycle !== 1) ppu.registers.ppuStatus.isInVBlankInterval = 0;
 
     ppu.step(noop, onInterrupt);
 
@@ -900,10 +906,12 @@ it("sets `PPUStatus::isInVBlankInterval` and doesn't trigger an NMI on ~scanline
       );
       expect(onInterrupt).to.not.have.been.called;
     } else {
-      expect(ppu.registers.ppuStatus.isInVBlankInterval).to.equalN(
-        0,
-        "isInVBlankInterval"
-      );
+      if (cycle > 1 /* // LEGACY: see above */) {
+        expect(ppu.registers.ppuStatus.isInVBlankInterval).to.equalN(
+          0,
+          "isInVBlankInterval"
+        );
+      }
       expect(onInterrupt).to.not.have.been.called;
     }
   }

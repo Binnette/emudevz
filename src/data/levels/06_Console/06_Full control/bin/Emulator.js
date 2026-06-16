@@ -204,7 +204,17 @@ export default class Emulator {
       }
       // </optimization>
 
+      const wasInVBlankInterval = this._isInVBlankInterval();
+
       this.ppu.step(this.onFrame, onIntr);
+
+      const isInVBlankInterval = this._isInVBlankInterval();
+
+      if (!wasInVBlankInterval && isInVBlankInterval) {
+        // some games with tight $2002 loops need to "see" the VBlank flag before jumping to the NMI handler
+        this.pendingPPUCycles = unitCycles - i - 1;
+        break;
+      }
     }
 
     if (this.ppu.scanline !== scanline && this.onScanline != null)
@@ -238,5 +248,9 @@ export default class Emulator {
     for (let i = 0; i < prgRamBytes.length; i++) {
       prgRam[i] = prgRamBytes[i];
     }
+  }
+
+  _isInVBlankInterval() {
+    return this.ppu.registers?.ppuStatus?.isInVBlankInterval ?? false;
   }
 }
