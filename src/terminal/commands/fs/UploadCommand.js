@@ -1,5 +1,5 @@
 import $path from "path-browserify-esm";
-import filesystem from "../../../filesystem";
+import filesystem, { Drive } from "../../../filesystem";
 import extensions from "../../../gui/extensions";
 import locales from "../../../locales";
 import { filepicker } from "../../../utils";
@@ -18,7 +18,7 @@ export default class UploadCommand extends FilesystemCommand {
 				async (files) => {
 					try {
 						for (let file of files) {
-							const fileName = file.name.replace(/[^a-z0-9._-]/gi, "_");
+							const fileName = Drive.normalizeFileName(file.name);
 							if (!fileName) continue;
 
 							const [__, customArgs] = extensions.getOptions(fileName);

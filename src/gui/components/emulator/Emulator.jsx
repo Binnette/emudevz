@@ -406,9 +406,9 @@ export default class Emulator extends Component {
 		const { name } = this.props;
 		if (name == null) return null;
 
-		this.name = name; // (cache game name)
+		this.name = Drive.normalizeFileName(name); // (cache game name)
 
-		const saveFilePath = `${Drive.SAVE_DIR}/${name}.sav`;
+		const saveFilePath = `${Drive.SAVE_DIR}/${this.name}.sav`;
 		try {
 			if (filesystem.exists(saveFilePath)) {
 				const raw = filesystem.read(saveFilePath);

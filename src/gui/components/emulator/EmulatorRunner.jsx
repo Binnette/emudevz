@@ -441,7 +441,8 @@ export default class EmulatorRunner extends PureComponent {
 			if (!neees) return;
 
 			const state = neees.getSaveState();
-			const saveStatePath = `${Drive.SAVE_DIR}/${name}.state`;
+			const normalizedName = Drive.normalizeFileName(name);
+			const saveStatePath = `${Drive.SAVE_DIR}/${normalizedName}.state`;
 			filesystem.write(saveStatePath, JSON.stringify(state));
 			toast.success(locales.get("save_state_saved"));
 
@@ -460,7 +461,8 @@ export default class EmulatorRunner extends PureComponent {
 			const neees = this._emulator?.neees;
 			if (!neees) return;
 
-			const saveStatePath = `${Drive.SAVE_DIR}/${name}.state`;
+			const normalizedName = Drive.normalizeFileName(name);
+			const saveStatePath = `${Drive.SAVE_DIR}/${normalizedName}.state`;
 			if (!filesystem.exists(saveStatePath)) {
 				toast.error(locales.get("save_state_not_found"));
 				return;

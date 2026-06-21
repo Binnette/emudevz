@@ -86,6 +86,10 @@ export default {
 		return { isUsingSnapshot };
 	},
 
+	normalizeFileName(fileName) {
+		return fileName.replace(this.INVALID_CHARACTERS(), "_");
+	},
+
 	snapshotDirOf(levelId) {
 		return `${SNAPSHOTS_DIR}/level-${levelId}`;
 	},
