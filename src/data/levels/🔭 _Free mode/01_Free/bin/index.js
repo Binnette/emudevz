@@ -87,12 +87,48 @@ class Emulator {
   }
 
   /**
-   * Returns a multiline string with metadata about the current ROM.
+   * (Optional) Returns a multiline string with metadata about the current ROM.
    */
   getMetadata(name) {
     /* TODO: IMPLEMENT */
     return `${name}\n🗜️ Mapper: 123\n🔋 RAM+BATT: yes?`;
   }
+
+  /**
+   * (Optional) Called when the mouse is moved over the gameplay area.
+   * `x`: X coordinate scaled to the [0, WIDTH] range.
+   * `y`: Y coordinate scaled to the [0, HEIGHT] range.
+   */
+  onMouseMove(x, y) {}
+
+  /**
+   * (Optional) Called when a mouse button is pressed.
+   * `button`: The pressed button.
+   */
+  onMouseDown(button) {}
+
+  /**
+   * (Optional) Called when a mouse button is released.
+   * `button`: The released button.
+   */
+  onMouseUp(button) {}
+
+  /**
+   * (Optional) Called when the mouse leaves the gameplay area.
+   */
+  onMouseLeave() {}
+
+  /**
+   * (Optional) Called when a keyboard key is pressed.
+   * `key`: The pressed key.
+   */
+  onKeyDown(key) {}
+
+  /**
+   * (Optional) Called when a keyboard key is released.
+   * `key`: The released key.
+   */
+  onKeyUp(key) {}
 
   // <test>
   _generateVideo() {

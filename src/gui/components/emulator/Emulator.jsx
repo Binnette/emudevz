@@ -63,6 +63,10 @@ export default class Emulator extends Component {
 					!screen ? (
 						<Screen
 							className={innerClassName}
+							onMouseMove={(x, y) => this.neees?.onMouseMove?.(x, y)}
+							onMouseDown={(button) => this.neees?.onMouseDown?.(button)}
+							onMouseUp={(button) => this.neees?.onMouseUp?.(button)}
+							onMouseLeave={() => this.neees?.onMouseLeave?.()}
 							ref={(screen) => {
 								if (screen) this._initialize(screen);
 							}}
@@ -316,6 +320,8 @@ export default class Emulator extends Component {
 		if (!document.fullscreenElement && document.activeElement.id !== "emulator")
 			return;
 
+		this.neees?.onKeyDown?.(e.key);
+
 		const inputTypes = store.getState().savedata.inputTypes;
 
 		for (let player = 1; player <= 2; player++) {
@@ -329,6 +335,8 @@ export default class Emulator extends Component {
 	_onKeyUp = (e) => {
 		if (!document.fullscreenElement && document.activeElement.id !== "emulator")
 			return;
+
+		this.neees?.onKeyUp?.(e.key);
 
 		const inputTypes = store.getState().savedata.inputTypes;
 

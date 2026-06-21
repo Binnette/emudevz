@@ -14,6 +14,10 @@ export default class Screen extends Component {
 				className={classNames(styles.screen, className)}
 				width={width}
 				height={height}
+				onMouseMove={this._onMouseMove}
+				onMouseDown={this._onMouseDown}
+				onMouseUp={this._onMouseUp}
+				onMouseLeave={this._onMouseLeave}
 				ref={(canvas) => {
 					if (canvas) this._initCanvas(canvas);
 				}}
@@ -34,6 +38,46 @@ export default class Screen extends Component {
 			if (document.exitFullscreen) document.exitFullscreen();
 		}
 	};
+
+	_onMouseMove = (e) => {
+		const position = this._getMousePosition(e);
+		if (position != null) this.props.onMouseMove?.(position.x, position.y);
+	};
+
+	_onMouseDown = (e) => {
+		if (this._getMousePosition(e) != null) this.props.onMouseDown?.(e.button);
+	};
+
+	_onMouseUp = (e) => {
+		if (this._getMousePosition(e) != null) this.props.onMouseUp?.(e.button);
+	};
+
+	_onMouseLeave = () => {
+		if (!this._isMouseInside) return;
+
+		this._isMouseInside = false;
+		this.props.onMouseLeave?.();
+	};
+
+	_getMousePosition(e) {
+		const rect = this.canvas.getBoundingClientRect();
+		const scale = Math.min(
+			rect.width / this.canvas.width,
+			rect.height / this.canvas.height
+		);
+		const width = this.canvas.width * scale;
+		const height = this.canvas.height * scale;
+		const x = e.clientX - rect.left - (rect.width - width) / 2;
+		const y = e.clientY - rect.top - (rect.height - height) / 2;
+
+		if (x < 0 || x > width || y < 0 || y > height) {
+			this._onMouseLeave();
+			return null;
+		}
+
+		this._isMouseInside = true;
+		return { x: x / scale, y: y / scale };
+	}
 
 	_initCanvas(canvas) {
 		this.canvas = canvas;
