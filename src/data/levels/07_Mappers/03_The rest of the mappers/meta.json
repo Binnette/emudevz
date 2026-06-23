@@ -4,6 +4,7 @@
 		"es": "🗜️ El resto de los mappers"
 	},
 	"ui": {
+		"run": "copy.js",
 		"layout": "tripleRight",
 		"components": {
 			"Right": [
