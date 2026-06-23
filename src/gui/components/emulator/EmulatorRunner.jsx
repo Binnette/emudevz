@@ -30,6 +30,7 @@ import integrations from "./integrations";
 import styles from "./EmulatorRunner.module.css";
 
 const COMPONENT_BORDER_RADIUS = 8;
+const SAVE_STATE_EXTENSION = ".state";
 
 export default class EmulatorRunner extends PureComponent {
 	state = { integrationId: null };
@@ -441,8 +442,11 @@ export default class EmulatorRunner extends PureComponent {
 			if (!neees) return;
 
 			const state = neees.getSaveState();
-			const normalizedName = Drive.normalizeFileName(name);
-			const saveStatePath = `${Drive.SAVE_DIR}/${normalizedName}.state`;
+			const normalizedName = Drive.normalizeFileName(name).slice(
+				0,
+				Drive.MAX_FILE_NAME_LENGTH - SAVE_STATE_EXTENSION.length
+			);
+			const saveStatePath = `${Drive.SAVE_DIR}/${normalizedName}${SAVE_STATE_EXTENSION}`;
 			filesystem.write(saveStatePath, JSON.stringify(state));
 			toast.success(locales.get("save_state_saved"));
 
@@ -461,8 +465,11 @@ export default class EmulatorRunner extends PureComponent {
 			const neees = this._emulator?.neees;
 			if (!neees) return;
 
-			const normalizedName = Drive.normalizeFileName(name);
-			const saveStatePath = `${Drive.SAVE_DIR}/${normalizedName}.state`;
+			const normalizedName = Drive.normalizeFileName(name).slice(
+				0,
+				Drive.MAX_FILE_NAME_LENGTH - SAVE_STATE_EXTENSION.length
+			);
+			const saveStatePath = `${Drive.SAVE_DIR}/${normalizedName}${SAVE_STATE_EXTENSION}`;
 			if (!filesystem.exists(saveStatePath)) {
 				toast.error(locales.get("save_state_not_found"));
 				return;

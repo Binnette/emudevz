@@ -17,6 +17,7 @@ import styles from "./Emulator.module.css";
 export const SAVESTATE_KEY_PREFIX = "persist:emudevz:savestate-";
 export const SAVESTATE_RESET_COMMAND = "reset";
 const EXTENDED_BUTTONS = ["BUTTON_X", "BUTTON_Y", "BUTTON_L", "BUTTON_R"];
+const SAVE_FILE_EXTENSION = ".sav";
 
 const mapTypeToInput = (inputType, keyboardInput, gamepadInputs) => {
 	switch (inputType) {
@@ -414,9 +415,12 @@ export default class Emulator extends Component {
 		const { name } = this.props;
 		if (name == null) return null;
 
-		this.name = Drive.normalizeFileName(name); // (cache game name)
+		this.name = Drive.normalizeFileName(name).slice(
+			0,
+			Drive.MAX_FILE_NAME_LENGTH - SAVE_FILE_EXTENSION.length
+		); // (cache game name)
 
-		const saveFilePath = `${Drive.SAVE_DIR}/${this.name}.sav`;
+		const saveFilePath = `${Drive.SAVE_DIR}/${this.name}${SAVE_FILE_EXTENSION}`;
 		try {
 			if (filesystem.exists(saveFilePath)) {
 				const raw = filesystem.read(saveFilePath);
@@ -439,7 +443,7 @@ export default class Emulator extends Component {
 			const neees = this._emulation.neees;
 			const saveFileBytes = neees?.getSaveFile?.();
 			if (saveFileBytes != null) {
-				const saveFilePath = `${Drive.SAVE_DIR}/${name}.sav`;
+				const saveFilePath = `${Drive.SAVE_DIR}/${name}${SAVE_FILE_EXTENSION}`;
 				filesystem.write(saveFilePath, JSON.stringify(saveFileBytes));
 			}
 		} catch (e) {

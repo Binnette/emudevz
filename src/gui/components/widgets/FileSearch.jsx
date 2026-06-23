@@ -22,8 +22,10 @@ import styles from "./FileSearch.module.css";
 const DIRECTORY = "";
 const PREFIX = `${DIRECTORY}/`;
 const MAX_RESULTS = 10;
+const SAVE_FILE_EXTENSION = ".sav";
+const SAVE_STATE_EXTENSION = ".state";
 const DEFAULT_FILTER = (name) =>
-	!name.endsWith(".sav") && !name.endsWith(".state");
+	!name.endsWith(SAVE_FILE_EXTENSION) && !name.endsWith(SAVE_STATE_EXTENSION);
 const CODE_DIRS = ["/code", "/lib"];
 const CODE_EXTENSION = ".js";
 const CLASS_REGEXP = /\s*class\s+([A-Za-z0-9_]+)/;
