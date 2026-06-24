@@ -1,4 +1,6 @@
-## Suggested improvements for your emulator
+# Suggested improvements for your emulator
+
+<div class="embed-image"><img alt="Achievement" src="assets/graphics/achievement_complete.png" style="width: 30%; margin: 16px" /></div>
 
 Congratulations on making it this far! Now that you have full control over the emulator and can change everything as you see fit, there are many areas in which you can improve it. The improvements don't even have to rip out the components you built throughout the game, as the emulator you created is surprisingly capable. It may not be the most accurate, but don't underestimate either it or yourself! Many games will work correctly as long as you get the mapper emulation right.
 

@@ -1,4 +1,6 @@
-## Mejoras sugeridas para tu emulador
+# Mejoras sugeridas para tu emulador
+
+<div class="embed-image"><img alt="Achievement" src="assets/graphics/achievement_complete.png" style="width: 30%; margin: 16px" /></div>
 
 ¡Felicitaciones por haber llegado hasta aquí! Ahora que tienes control total sobre el emulador y puedes cambiar todo como creas conveniente, hay muchas áreas en las que puedes mejorarlo. Las mejoras ni siquiera tienen que eliminar los componentes que construiste a lo largo del juego, ya que el emulador que creaste es sorprendentemente capaz. Puede que no sea el más preciso, ¡pero no subestimes ni al emulador ni tus propias capacidades! Muchos juegos funcionarán correctamente siempre que implementes bien la emulación de los mappers.
 
