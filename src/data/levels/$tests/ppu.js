@@ -276,7 +276,10 @@ it("`PPUMemory`: connects the mapper (<reads>)", () => {
   ppu.memory.onLoad(dummyCartridge, mapper);
 
   for (let i = 0x0000; i <= 0x1fff; i++) {
-    expect(ppu.memory.read(i)).to.equalHex(i * random, `read(${i})`);
+    expect(ppu.memory.read(i)).to.equalHex(
+      i * random,
+      `read(0x${i.toString(16).padStart(4, "0")}})`
+    );
   }
 })({
   locales: {
